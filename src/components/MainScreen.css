@@ -1,0 +1,122 @@
+.main-screen {
+  position: relative;
+}
+
+.main-screen__title {
+  position: absolute;
+  top: 70px;
+  left: 50px;
+  width: 300px;
+  height: 40px;
+  font-weight: 600;
+  font-size: 40px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.main-screen__shelf {
+  position: absolute;
+  top: 150px; /* Maintains a strict 40px gap from the title bottom (110px) */
+  left: 50px;
+  margin: 0;
+  text-align: left;
+}
+
+.main-screen__grid {
+  display: block;
+  text-align: left;
+}
+
+.video-card {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  width: 290px;
+  height: 163px;
+  margin: 0 17px 48px 0;
+  overflow: hidden;
+  border: 2px solid transparent;
+  border-radius: 16px;
+  text-align: left;
+  background: transparent;
+  box-shadow: 0px 4px 4px 0px #00000040;
+}
+
+.video-card__graphic,
+.video-card__shade {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.video-card__graphic {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #b5dbff;
+}
+
+.video-card__shade--bottom-right {
+  background: linear-gradient(
+    315deg, 
+    rgba(0, 0, 0, 0.9) 0%, 
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+.video-card__badges {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 1;
+}
+
+.video-card__badge {
+  display: inline-block;
+  min-width: 28px;
+  height: 17px;
+  padding: 0 8px;
+  border-radius: 4px;
+  background: #0e1521;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 17px;
+  text-align: center;
+  margin-right: 4px;
+}
+
+.video-card__badge:last-child {
+  margin-right: 0;
+}
+
+.video-card__content {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  text-align: left;
+}
+
+.video-card__episode {
+  display: block;
+  margin-bottom: 8px;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.video-card__title {
+  display: block;
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1;
+  max-width: 200px;
+}
+
+.video-card.is-focused {
+  border: 2px solid #ffffff;
+}

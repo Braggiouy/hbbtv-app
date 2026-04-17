@@ -1,0 +1,23 @@
+[
+  {
+    "title": "Title",
+    "episodeLabel": "S1 E1",
+    "thumbnail": "/background-image.jpg",
+    "badges": [],
+    "videoUrl": "https://docs.evostream.com/sample_content/assets/bunny.mp4"
+  },
+  {
+    "title": "Title",
+    "episodeLabel": "S1 E2",
+    "thumbnail": "/background-image.jpg",
+    "badges": [],
+    "videoUrl": "https://docs.evostream.com/sample_content/assets/bunny.mp4"
+  },
+  {
+    "title": "Long title for a long video",
+    "episodeLabel": "S1 E3",
+    "thumbnail": "/background-image.jpg",
+    "badges": ["UT", "AD", "DGS"],
+    "videoUrl": "https://docs.evostream.com/sample_content/assets/bunny.mp4"
+  }
+]

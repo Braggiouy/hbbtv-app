@@ -1,0 +1,106 @@
+.player-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1280px;
+  height: 720px;
+}
+
+.player-screen__header {
+  position: absolute;
+  top: 70px;
+  left: 50px;
+}
+
+.player-screen__header h1 {
+  margin: 0 0 12px 0;
+  font-size: 40px;
+  line-height: 1;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.player-screen__subtitle {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1;
+  color: rgba(245, 247, 251, 0.72);
+  font-weight: 500;
+}
+
+.player-screen__wrapper {
+  position: absolute;
+  top: 150px;
+  left: 50px;
+  width: 941px;
+  height: 530px;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #000;
+}
+
+.player-screen__wrapper video {
+  display: block;
+  width: 941px;
+  height: 530px;
+  object-fit: cover;
+}
+
+/* Central Play/Pause CTA */
+.player-screen__cta-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 20;
+  cursor: pointer;
+}
+
+.player-screen__cta-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120px;
+  height: 120px;
+  margin-top: -60px;
+  margin-left: -60px;
+  background: transparent;
+  border-radius: 50%;
+  transition: opacity 0.5s ease;
+}
+
+.player-screen__cta-button.is-visible {
+  opacity: 1;
+}
+
+.player-screen__cta-button.is-hidden {
+  opacity: 0;
+}
+
+.player-screen__cta-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+/* Play Icon (Triangle) */
+.is-paused .player-screen__cta-icon {
+  width: 0;
+  height: 0;
+  border-top: 24px solid transparent;
+  border-bottom: 24px solid transparent;
+  border-left: 36px solid #ffffff;
+  margin-top: -24px;
+  margin-left: -12px;
+}
+
+/* Pause Icon (Two Bars) */
+.is-playing .player-screen__cta-icon {
+  width: 32px;
+  height: 40px;
+  border-left: 10px solid #ffffff;
+  border-right: 10px solid #ffffff;
+  margin-top: -20px;
+  margin-left: -16px;
+}
