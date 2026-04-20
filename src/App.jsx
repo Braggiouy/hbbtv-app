@@ -1,71 +1,51 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import MainScreen from "./components/MainScreen";
 import VideoPlayer from "./components/VideoPlayer";
 import videos from "./data/videos.json";
-import useViewportScale from "./hooks/useViewportScale";
-import { BASE_WIDTH, BASE_HEIGHT } from "./constants";
 
-const SCREENS = {
-  MAIN: "main",
-  PLAYER: "player",
-};
-
+/**
+ * App Component
+ * Manages the routing between MainScreen (Grid) and VideoPlayer.
+ * Strictly 1280x720 compliant for HbbTV 1.5.
+ */
 function App() {
-  const [screen, setScreen] = useState(SCREENS.MAIN);
-  const [focusedIndex, setFocusedIndex] = useState(0);
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const scale = useViewportScale();
+  const [route, setRoute] = useState({ name: "main" });
+  const [lastFocusedIndex, setLastFocusedIndex] = useState(0);
 
-  const handleFocusChange = (nextIndex) => setFocusedIndex(nextIndex);
+  const handleSelectVideo = useCallback((index) => {
+    const video = videos[index];
+    if (video) {
+      setLastFocusedIndex(index);
+      setRoute({ name: "player", video });
+    }
+  }, []);
 
-  const handleSelectVideo = (index) => {
-    setFocusedIndex(index);
-    setSelectedIndex(index);
-    setScreen(SCREENS.PLAYER);
-  };
+  const handleBackToMain = useCallback(() => {
+    setRoute({ name: "main" });
+  }, []);
 
-  const handleBackToMain = () => setScreen(SCREENS.MAIN);
+  const handleFocusChange = useCallback((index) => {
+    setLastFocusedIndex(index);
+  }, []);
 
-  const selectedVideo = videos[selectedIndex];
-
-  let screenContent = (
-    <MainScreen
-      focusedIndex={focusedIndex}
-      onFocusChange={handleFocusChange}
-      onSelectVideo={handleSelectVideo}
-      videos={videos}
-    />
-  );
-
-  if (!videos.length) {
-    screenContent = (
-      <main className="app-empty-state">
-        <p>No videos found in the static data source.</p>
-      </main>
+  // Determine which screen to render
+  let content = null;
+  if (route.name === "player") {
+    content = <VideoPlayer video={route.video} onBack={handleBackToMain} />;
+  } else {
+    content = (
+      <MainScreen
+        focusedIndex={lastFocusedIndex}
+        onFocusChange={handleFocusChange}
+        onSelectVideo={handleSelectVideo}
+        videos={videos}
+      />
     );
   }
-
-  if (screen === SCREENS.PLAYER && selectedVideo) {
-    screenContent = (
-      <VideoPlayer video={selectedVideo} onBack={handleBackToMain} />
-    );
-  }
-
-  const transformStyle = "scale(" + scale + ")";
 
   return (
-    <div className="main-page-wrapper">
-      <div
-        className="main-page"
-        style={{
-          height: BASE_HEIGHT + "px",
-          width: BASE_WIDTH + "px",
-          msTransform: transformStyle,
-          transform: transformStyle,
-        }}
-      >
-        {screenContent}
-      </div>
+    <div className="app-container">
+      <div className="app-viewport">{content}</div>
     </div>
   );
 }

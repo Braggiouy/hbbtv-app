@@ -6,6 +6,7 @@ export default function useTvVideoController(
 ) {
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const play = useCallback(async () => {
     const player = videoRef.current;
@@ -40,18 +41,21 @@ export default function useTvVideoController(
     const player = videoRef.current;
     if (!player) return;
 
-    const onPlay = () => setIsPlaying(true);
-    const onPause = () => setIsPlaying(false);
-    const onEnded = () => setIsPlaying(false);
+    const eventMaps = [
+      { name: "play", handler: () => setIsPlaying(true) },
+      { name: "pause", handler: () => setIsPlaying(false) },
+      { name: "ended", handler: () => setIsPlaying(false) },
+      { name: "waiting", handler: () => setIsLoading(true) },
+      { name: "playing", handler: () => setIsLoading(false) },
+      { name: "canplay", handler: () => setIsLoading(false) },
+    ];
 
-    player.addEventListener("play", onPlay);
-    player.addEventListener("pause", onPause);
-    player.addEventListener("ended", onEnded);
+    eventMaps.forEach((item) => player.addEventListener(item.name, item.handler));
 
     return () => {
-      player.removeEventListener("play", onPlay);
-      player.removeEventListener("pause", onPause);
-      player.removeEventListener("ended", onEnded);
+      eventMaps.forEach((item) =>
+        player.removeEventListener(item.name, item.handler),
+      );
     };
   }, []);
 
@@ -60,6 +64,7 @@ export default function useTvVideoController(
     const player = videoRef.current;
     if (!player || !videoUrl) return;
 
+    setIsLoading(true);
     player.src = videoUrl;
     player.load();
 
@@ -69,12 +74,14 @@ export default function useTvVideoController(
 
     return () => {
       player.pause();
+      player.src = "";
     };
   }, [videoUrl, autoplay, play]);
 
   return {
     videoRef,
     isPlaying,
+    isLoading,
     play,
     pause,
     toggle,

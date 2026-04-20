@@ -3,7 +3,7 @@ import useTvVideoController from "../hooks/useTvVideoController";
 import "./VideoPlayer.css";
 
 export default function VideoPlayer({ video, onBack }) {
-  const { videoRef, isPlaying, toggle } = useTvVideoController(
+  const { videoRef, isPlaying, isLoading, toggle } = useTvVideoController(
     video?.videoUrl,
     { autoplay: true },
   );
@@ -27,11 +27,19 @@ export default function VideoPlayer({ video, onBack }) {
       <div className="player-screen__wrapper">
         <video ref={videoRef} playsInline preload="auto" controls={false} />
 
+        {isLoading && (
+          <div className="player-screen__loading-overlay">
+            <div className="player-screen__loading-spinner">
+              <span>Loading...</span>
+            </div>
+          </div>
+        )}
+
         <div className="player-screen__cta-overlay" onClick={toggle}>
           <div
             className={`player-screen__cta-button ${
               isPlaying ? "is-playing" : "is-paused"
-            }`}
+            } ${isLoading ? "is-hidden" : "is-visible"}`}
           >
             <div className="player-screen__cta-icon" />
           </div>

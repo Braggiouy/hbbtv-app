@@ -2,15 +2,16 @@ import { useEffect, useRef } from "react";
 import { THROTTLE_MS } from "../constants";
 
 const KEY_MAP = {
-  // KeyCodes (Legacy)
+  // KeyCodes (Legacy & Hardware Specific)
   37: "onLeft",
   39: "onRight",
   13: "onEnter",
-  8: "onBack",
-  27: "onBack",
-  21: "onBack",
-  461: "onBack",
-  10009: "onBack",
+  8: "onBack", // Backspace
+  27: "onBack", // Escape
+  21: "onBack", // Older WebOS
+  461: "onBack", // WebOS Back
+  10009: "onBack", // Tizen Back
+  166: "onBack", // Standard TV Back
 
   // Key Names (Modern)
   ArrowLeft: "onLeft",
@@ -40,6 +41,9 @@ export default function useNavigation(handlers = {}) {
 
       if (!handlerName) return;
 
+      const handler = handlersRef.current[handlerName];
+      if (!handler) return;
+
       const now = Date.now();
 
       // Throttle repeated key presses
@@ -52,9 +56,7 @@ export default function useNavigation(handlers = {}) {
 
       event.preventDefault();
 
-      const handler = handlersRef.current[handlerName];
-
-      if (handler) handler(event);
+      handler(event);
     };
 
     window.addEventListener("keydown", onKeyDown, true);
